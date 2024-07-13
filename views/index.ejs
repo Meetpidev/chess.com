@@ -6,9 +6,6 @@
     <title>Chess.com</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body{
-            overflow: hidden;
-        }
         .chessboard {
             display: grid;
             grid-template-columns: repeat(8, minmax(0, 1fr));
@@ -80,13 +77,6 @@
             font-size: 18px;
             cursor: pointer;
         }
-        .image2{
-            position: absolute;
-            left: 42rem;
-            top: 3rem;
-            height: 5rem;
-            width: 14rem;
-        }
         .by{
             color: white;
             text-align: center;
@@ -100,16 +90,19 @@
 
 <body>
    
-   <div class="image w-full bg-zinc-900">
-     <img src="/pieces/image.png" alt="Chess.com" class="image2">
-   </div>
-
-    <div class="w-full h-screen flex items-center justify-center bg-zinc-900">
-        <div class="chessboard w-96 h-96 bg-red-400"></div>
-    </div>
-
-    <h4 class="by w-full bg-zinc-900">Created by <a href="https://www.linkedin.com/in/meet-shah-0384891a7/">Meet Shah</a></h4>
-
+    <div class="flex h-screen justify-center bg-zinc-900">
+        <div class="w-full max-w-md p-4">
+          <div class="image mb-4">
+            <img src="/pieces/image.png" alt="(link unavailable)" class="image2">
+          </div>
+          <div class="chessboard w-full h-96 bg-red-400"></div>
+          <div class="controls mt-4">
+            <button id="playComputerButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Play with Computer</button>
+          </div>
+        </div>
+        
+      </div>
+      <h4 class="by text-center text-white">Created by <a href="https://www.linkedin.com/in/meet-shah-0384891a7/" class="font-bold">Meet Shah</a></h4>
   
 
     <audio id="gameStart" src="sounds/game-start.mp3" preload="auto"></audio>

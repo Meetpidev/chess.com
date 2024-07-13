@@ -7,7 +7,7 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const port = process.env.PORT;
+const port = process.env.PORT || 3000;
 
 const app = express();
 app.set("view engine", "ejs");
@@ -99,6 +99,20 @@ io.on("connection", function(socket) {
         }
     });
 
+    socket.on("playComputer", () => {
+        isComputerOpponent = true;
+        if (!players.white) {
+            players.white = socket.id;
+            currentPlayer = "w";
+            socket.emit("PlayRole", "w");
+        } else if (!players.black) {
+            players.black = socket.id;
+            currentPlayer = "b";
+            socket.emit("PlayRole", "b");
+        }
+        playComputerMove();
+    });
+
     const resetGame = () => {
         chess.reset();
         players = {};
@@ -112,7 +126,7 @@ io.on("connection", function(socket) {
         if (chess.isGameOver()) return;
 
         const moves = chess.moves();
-        const move = moves[Math.floor(Math.random() * moves.length)];
+        const move = moves[Math.floor(Math.random() * moves.length)]; // Simple random move
         chess.move(move);
         io.emit("move", move);
         io.emit("boardState", chess.fen());

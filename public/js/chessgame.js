@@ -10,10 +10,15 @@ const illegalSound = document.getElementById('illegal');
 const winSound = document.getElementById('winSound');
 const loseSound = document.getElementById('loseSound');
 const gameEndSound = document.getElementById('gameEnd');
+const playComputerButton = document.getElementById("playComputerButton");
 
 let draggedPeice = null;
 let sourceSqure = null;
 let PlayRole = null;
+
+playComputerButton.addEventListener("click", () => {
+    socket.emit("playComputer");
+});
 
 const RenderBoard = () => {
     const board = chess.board();
