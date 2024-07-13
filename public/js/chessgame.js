@@ -11,6 +11,10 @@ const winSound = document.getElementById('winSound');
 const loseSound = document.getElementById('loseSound');
 const gameEndSound = document.getElementById('gameEnd');
 const playComputerButton = document.getElementById("playComputerButton");
+const googleFormButton = document.getElementById('googleFormButton');
+const googleFormContainer = document.getElementById('googleFormContainer');
+
+
 
 let draggedPeice = null;
 let sourceSqure = null;
@@ -19,6 +23,15 @@ let PlayRole = null;
 playComputerButton.addEventListener("click", () => {
     socket.emit("playComputer");
 });
+
+googleFormButton.addEventListener('click', () => {
+    googleFormContainer.style.display = 'block';
+    const googleForm = document.createElement('div');
+    googleForm.src = 'https://docs.google.com/forms/d/e/1FAIpQLSexn_Ua95yP7U06qZ3UX3ARNUlzOlTHZWokxtqrv4f1TILeDw/viewform?usp=sf_link';
+    googleFormContainer.appendChild(googleForm);
+    window.open(googleForm.src, '_blank');
+  });
+
 
 const RenderBoard = () => {
     const board = chess.board();
