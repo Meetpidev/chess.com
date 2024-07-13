@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chess.com</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body{
+            overflow: hidden;
+        }
+        .chessboard {
+            display: grid;
+            grid-template-columns: repeat(8, minmax(0, 1fr));
+            grid-template-rows: repeat(8, minmax(0, 1fr));
+            width: 400px;
+            height: 400px;
+            transform: rotate(0deg);
+        }
+        
+        .piece.white {
+            color: white;
+            filter: drop-shadow(0 0 2px rgba(0, 0, 0, 1));
+        }
+        
+        .piece.black {
+            color: black;
+        }
+        
+        .flipped {
+            transform: rotate(180deg);
+        }
+        
+        .sqare {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .sqare.light {
+            background-color: rgb(235,236,208);
+        }
+        
+        .sqare.dark {
+            background-color: rgb(119,149,86);
+        }
+        
+        .piece {
+            font-size: 36px;
+            cursor: pointer;
+        }
+        
+        .piece.draggable {
+            cursor: grab;
+        }
+        
+        .dragging {
+            opacity: 0.5;
+        }
+        .flipped .piece {
+            transform: rotate(180deg);
+        }
+        .promotion-overlay {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-color: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            z-index: 1000;
+        }
+        .promotion-overlay button {
+            background-color: #fff;
+            border: none;
+            padding: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .image2{
+            position: absolute;
+            left: 42rem;
+            top: 3rem;
+            height: 5rem;
+            width: 14rem;
+        }
+        .by{
+            color: white;
+            text-align: center;
+            transform: translateY(-7rem);
+        }
+        .by a{
+           font-weight: bolder;
+        }
+    </style>
+</head>
+
+<body>
+   
+   <div class="image w-full bg-zinc-900">
+     <img src="/pieces/image.png" alt="Chess.com" class="image2">
+   </div>
+
+    <div class="w-full h-screen flex items-center justify-center bg-zinc-900">
+        <div class="chessboard w-96 h-96 bg-red-400"></div>
+    </div>
+
+    <h4 class="by w-full bg-zinc-900">Created by <a href="https://www.linkedin.com/in/meet-shah-0384891a7/">Meet Shah</a></h4>
+
+  
+
+    <audio id="gameStart" src="sounds/game-start.mp3" preload="auto"></audio>
+    <audio id="selfMove" src="sounds/move-self.mp3" preload="auto"></audio>
+    <audio id="checkmateSound" src="sounds/move-check.mp3" preload="auto"></audio>
+    <audio id="cpature" src="sounds/capture.mp3" preload="auto"></audio>
+    <audio id="illegal" src="sounds/illegal.mp3" preload="auto"></audio>
+    <audio id="winSound" src="sounds/game-win-long.mp3" preload="auto"></audio>
+    <audio id="loseSound" src="sounds/game-lose.mp3" preload="auto"></audio>
+    <audio id="gameEnd" src="sounds/game-end.mp3" preload="auto"></audio>
+
+    <script src="https://cdn.socket.io/4.7.5/socket.io.min.js" integrity="sha384-2huaZvOR9iDzHqslqwpR87isEmrfxqyWOF7hr7BY6KG0+hVKLoEXMPUJw3ynWuhO" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js" integrity="sha512-xRllwz2gdZciIB+AkEbeq+gVhX8VB8XsfqeFbUh+SzHlN96dEduwtTuVuc2u9EROlmW9+yhRlxjif66ORpsgVA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/js/chessgame.js"></script>
+</body>
+</html>
