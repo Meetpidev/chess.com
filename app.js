@@ -4,6 +4,8 @@ const http = require("http");
 const { Chess } = require("chess.js");
 const path = require("path");
 const dotenv = require("dotenv");
+const session = require("express-session");
+const sharedsession = require("express-socket.io-session");
 
 dotenv.config();
 
@@ -15,7 +17,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 const server = http.createServer(app);
 
-const io = socket(server);
+
 
 const chess = new Chess();
 
@@ -23,12 +25,48 @@ let players = {};
 let currentPlayer = "w";
 let isComputerOpponent = false;
 
+const sessionMiddleware = session({
+    secret: process.env.SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        secure: false, // Set to true if using HTTPS
+        maxAge: 3600000 
+    }
+});
+
+ app.use(sessionMiddleware);
+
+  const io = socket(server);
+  io.use(sharedsession(sessionMiddleware, { autoSave: true }));
+
 app.get("/", (req, res) => {
-    res.render("index.ejs");
+
+    if (!req.session.playRole) {
+        req.session.playRole = "white"; 
+    } else if (req.session.playRole !== "black") {
+        req.session.playRole = "black"; 
+    } else {
+        console.log("All Things Are Defined");
+    }
+    res.render("index.ejs", { playerRole: req.session.playRole });
+
 });
 
 io.on("connection", function(socket) {
     console.log("Connected");
+
+    const session = socket.handshake.session;
+    console.log("Session:", session); 
+    if (session && session.playRole) {
+        const playRole = session.playRole;
+        console.log("PlayRole:",playRole);
+    } else {
+        console.log("Session or playRole is not defined");
+    }
+  
+    
+
 
     // Initialize Player
     if (!players.white) {
