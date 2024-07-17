@@ -6,6 +6,8 @@ const path = require("path");
 const dotenv = require("dotenv");
 const session = require("express-session");
 const sharedsession = require("express-socket.io-session");
+const MemoryStore = require("session-memory-store")(session);
+
 
 dotenv.config();
 
@@ -16,8 +18,6 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 
 const server = http.createServer(app);
-
-
 
 const chess = new Chess();
 
@@ -30,9 +30,10 @@ const sessionMiddleware = session({
     resave: false,
     saveUninitialized: true,
     cookie: {
-        secure: false, // Set to true if using HTTPS
+        secure: false, 
         maxAge: 3600000 
-    }
+    },
+    store: new MemoryStore()
 });
 
  app.use(sessionMiddleware);
