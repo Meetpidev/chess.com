@@ -6,9 +6,9 @@
     <title>Chess.com</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body{
+         body{
             overflow: hidden;
-        }
+         }
         .chessboard {
             display: grid;
             grid-template-columns: repeat(8, minmax(0, 1fr));
@@ -83,11 +83,57 @@
         .by{
             color: white;
             text-align: center;
-            transform: translateY(-7rem);
+           
         }
         .by a{
            font-weight: bolder;
         }
+        .btns{
+            margin-left: 3rem;
+        }
+        .by-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: .8rem;
+            flex-wrap: wrap;
+          }
+          
+          .by-container .by {
+            margin-bottom: 1rem;
+          }
+          
+          .by-container button {
+            width: 100%;
+            margin-top: .1rem;
+            flex-basis: 100%;
+          }
+          
+@media (max-width: 768px) {
+    .by-container button {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .by-container button {
+      font-size: 14px;
+      padding: 8px 12px;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .by-container button {
+      font-size: 12px;
+      padding: 6px 10px;
+      width: 100%;
+      margin-left: 0;
+    }
+  }
+  
+  
+          
     </style>
 </head>
 
@@ -99,16 +145,22 @@
             <img src="/pieces/image.png" alt="(link unavailable)" class="image2">
           </div>
           <div class="chessboard w-full h-96 bg-red-400"></div>
-          <div class="controls mt-4">
+          <div class="controls mt-4 btns">
             <button id="playComputerButton" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Play with Computer</button>
-            <button id="googleFormButton" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">Give Your Feedback</button>
+            <button id="bg-music" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">Stop Music</button>
         </div>
-        <div id="googleFormContainer" style="display: none;"></div>
-          
+
+        <div class="by-container">
+            <h4 class="by text-center text-white">Created by <a href="https://www.linkedin.com/in/meet-shah-0384891a7/" class="font-bold">Meet Shah</a></h4>
+            <button id="googleFormButton" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded">Give Your Feedback</button>
+          </div>
+
         </div>
       </div>
-      <h4 class="by text-center text-white">Created by <a href="https://www.linkedin.com/in/meet-shah-0384891a7/" class="font-bold">Meet Shah</a></h4>
-  
+
+      
+      
+      <div id="googleFormContainer" style="display: none;"></div>
 
     <audio id="gameStart" src="sounds/game-start.mp3" preload="auto"></audio>
     <audio id="selfMove" src="sounds/move-self.mp3" preload="auto"></audio>

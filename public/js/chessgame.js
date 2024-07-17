@@ -13,25 +13,16 @@ const gameEndSound = document.getElementById('gameEnd');
 const playComputerButton = document.getElementById("playComputerButton");
 const googleFormButton = document.getElementById('googleFormButton');
 const googleFormContainer = document.getElementById('googleFormContainer');
-
-
+const musicButton = document.getElementById('bg-music');
 
 let draggedPeice = null;
 let sourceSqure = null;
 let PlayRole = null;
-
+let music = new Audio('pieces/Background_Music.mp3');
+    
 playComputerButton.addEventListener("click", () => {
     socket.emit("playComputer");
 });
-
-googleFormButton.addEventListener('click', () => {
-    googleFormContainer.style.display = 'block';
-    const googleForm = document.createElement('div');
-    googleForm.src = 'https://docs.google.com/forms/d/e/1FAIpQLSexn_Ua95yP7U06qZ3UX3ARNUlzOlTHZWokxtqrv4f1TILeDw/viewform?usp=sf_link';
-    googleFormContainer.appendChild(googleForm);
-    window.open(googleForm.src, '_blank');
-  });
-
 
 const RenderBoard = () => {
     const board = chess.board();
@@ -58,15 +49,15 @@ const RenderBoard = () => {
 
                 pieceElement.addEventListener("dragstart", (e) => {
                     if (pieceElement.draggable) {
-                        draggedPiece = pieceElement;
-                        sourceSquare = { row: rowIndex, col: columnIndex };
+                        draggedPeice = pieceElement;
+                        sourceSqure = { row: rowIndex, col: columnIndex };
                         e.dataTransfer.setData("text/plain", "");
                     }
                 });
 
                 pieceElement.addEventListener("dragend", () => {
-                    draggedPiece = null;
-                    sourceSquare = null;
+                    draggedPeice = null;
+                    sourceSqure = null;
                 });
 
                 squareElement.appendChild(pieceElement);
@@ -79,13 +70,13 @@ const RenderBoard = () => {
             squareElement.addEventListener("drop", (e) => {
                 e.preventDefault();
 
-                if (draggedPiece) {
+                if (draggedPeice) {
                     const targetSquare = {
                         row: parseInt(squareElement.dataset.row),
                         col: parseInt(squareElement.dataset.col),
                     };
 
-                    HandleMove(sourceSquare, targetSquare);
+                    HandleMove(sourceSqure, targetSquare);
                 }
             });
 
@@ -187,6 +178,7 @@ socket.on("boardState", (fen) => {
 socket.on("move", (move) => {
     chess.move(move);
     RenderBoard();
+    music.play()
     selfMoveSound.play();
 });
 
@@ -209,3 +201,25 @@ socket.on("gameOver", (message) => {
         gameEndSound.play(); 
     }
 });
+
+
+googleFormButton.addEventListener('click', () => {
+    googleFormContainer.style.display = 'block';
+    const googleForm = document.createElement('div');
+    googleForm.src = 'https://docs.google.com/forms/d/e/1FAIpQLSexn_Ua95yP7U06qZ3UX3ARNUlzOlTHZWokxtqrv4f1TILeDw/viewform?usp=sf_link';
+    googleFormContainer.appendChild(googleForm);
+    window.open(googleForm.src, '_blank');
+});
+
+
+musicButton.addEventListener('click', function() {
+    console.log('Button clicked!');
+
+    if (music.paused) {
+      music.play();
+      musicButton.textContent = 'Stop Music';
+    } else {
+      music.pause();
+      musicButton.textContent = 'Play Music';
+    }
+  });
